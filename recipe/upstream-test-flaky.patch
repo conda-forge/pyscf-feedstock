@@ -1,0 +1,22 @@
+From e09e02e16e9385c2ff96eab2d2d1cf981f1528bb Mon Sep 17 00:00:00 2001
+From: Qiming Sun <osirpt.sun@gmail.com>
+Date: Sat, 8 Jan 2022 08:55:45 -0800
+Subject: [PATCH] Fix dft test
+
+---
+ pyscf/dft/test/test_grids.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pyscf/dft/test/test_grids.py b/pyscf/dft/test/test_grids.py
+index 311b865f46..612c59f447 100644
+--- a/pyscf/dft/test/test_grids.py
++++ b/pyscf/dft/test/test_grids.py
+@@ -84,7 +84,7 @@ def test_radi(self):
+ 
+         grid.radi_method = radi.becke
+         grid.build(with_non0tab=False)
+-        self.assertAlmostEqual(numpy.linalg.norm(grid.weights), 45009387.132578261, 6)
++        self.assertAlmostEqual(lib.fp(grid.weights), 2486249.209827192, 7)
+ 
+     def test_prune(self):
+         grid = gen_grid.Grids(h2o)
