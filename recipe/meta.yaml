@@ -18,7 +18,7 @@ source:
     # https://github.com/pyscf/pyscf/pull/1185
 
 build:
-  number: 0
+  number: 1
   skip: True  # [win or py<39 or osx]
   # OSX is skipped because of https://github.com/pyscf/pyscf/issues/1146
   script:
