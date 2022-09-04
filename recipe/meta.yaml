@@ -9,15 +9,6 @@ package:
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
   sha256: 820da1564047de3097ec2f964a4c2168535a8048c084f211b8db1feb0c1665af
-  patches:
-    - upstream-osx.patch
-    # https://github.com/pyscf/pyscf/pull/1101
-    - upstream-test.patch
-    # https://github.com/pyscf/pyscf/pull/1142
-    - upstream-linux.patch
-    # https://github.com/pyscf/pyscf/pull/1185
-    - upstream-test-flaky.patch
-    # https://github.com/pyscf/pyscf/pull/990/commits/e09e02e16e9385c2ff96eab2d2d1cf981f1528bb
 
 build:
   number: 0
