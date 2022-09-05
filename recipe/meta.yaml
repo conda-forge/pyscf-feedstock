@@ -31,6 +31,7 @@ requirements:
     - make
     - pip
     - python
+    - setuptools
     - xcfun 2.1.1
   run:
     - h5py >=2.7
