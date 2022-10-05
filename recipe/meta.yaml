@@ -12,8 +12,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [not linux]
-  # OSX is skipped because of https://github.com/pyscf/pyscf/issues/1146
+  skip: true  # [win]
   script:
     - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
     - {{ PYTHON }} -m pip install . -vv
