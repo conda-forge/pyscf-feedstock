@@ -20,7 +20,7 @@ source:
     # https://github.com/pyscf/pyscf/pull/990/commits/e09e02e16e9385c2ff96eab2d2d1cf981f1528bb
 
 build:
-  number: 2
+  number: 3
   skip: True  # [not linux]
   # OSX is skipped because of https://github.com/pyscf/pyscf/issues/1146
   script:
