@@ -49,6 +49,7 @@ test:
     - pip check
     - .github/workflows/run_tests.sh
   requires:
+    - pytest
     - nose
     - nose-cov
     - nose-exclude
