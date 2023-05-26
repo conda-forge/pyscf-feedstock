@@ -50,6 +50,7 @@ test:
     - .github/workflows/run_tests.sh
   requires:
     - pytest
+    - pytest-cov
     - nose
     - nose-cov
     - nose-exclude
