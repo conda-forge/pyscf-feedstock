@@ -51,10 +51,6 @@ test:
   requires:
     - pytest
     - pytest-cov
-    - nose
-    - nose-cov
-    - nose-exclude
-    - nose-timer
     - pip
   source_files:
     - .github/workflows/run_tests.sh
