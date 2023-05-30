@@ -1,5 +1,5 @@
 {% set name = "pyscf" %}
-{% set version = "2.0.1" %}
+{% set version = "2.1.1" %}
 
 
 package:
@@ -8,20 +8,13 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 6a152860787351aae52dc1ef2399bd9564fa314dca070312cfc0f2c3fc7412cf
+  sha256: 814240aa73f57ba96aee8264e3914c09f96ebdce1e42784da4b5e9a474ecb280
   patches:
-    - upstream-osx.patch
-    # https://github.com/pyscf/pyscf/pull/1101
-    - upstream-test.patch
-    # https://github.com/pyscf/pyscf/pull/1142
-    - upstream-linux.patch
-    # https://github.com/pyscf/pyscf/pull/1185
-    - upstream-test-flaky.patch
-    # https://github.com/pyscf/pyscf/pull/990/commits/e09e02e16e9385c2ff96eab2d2d1cf981f1528bb
+    - numpy-int.patch
 
 build:
-  number: 2
-  skip: True  # [not linux]
+  number: 0
+  skip: true  # [not linux]
   # OSX is skipped because of https://github.com/pyscf/pyscf/issues/1146
   script:
     - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
@@ -34,7 +27,7 @@ requirements:
     - cmake >=3.10
   host:
     - libblas
-    - libcint 4.4.6
+    - libcint
     - libxc 5.1.7
     - llvm-openmp
     - make
@@ -57,16 +50,22 @@ test:
     # Tests LIBXC and XCFUN
   commands:
     - pip check
-    - .github/workflows/run_tests.sh
+    - cp {{ RECIPE_DIR }}/pyscf_conf.py .pyscf_conf.py
+    - >
+      pytest pyscf/lib
+      -s -c setup.cfg
+      --cov-report xml
+      --cov-report term
+      --cov-config .coveragerc
+      --cov pyscf
   requires:
-    - nose
-    - nose-cov
-    - nose-exclude
-    - nose-timer
     - pip
+    - pytest
+    - pytest-cov
   source_files:
-    - .github/workflows/run_tests.sh
+    - .coveragerc
     - pyscf
+    - setup.cfg
 
 about:
   home: https://pyscf.org
@@ -77,5 +76,6 @@ about:
 
 extra:
   recipe-maintainers:
+    - awvwgk
     - maxscheurer
     - BastianZim
