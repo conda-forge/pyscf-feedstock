@@ -11,9 +11,8 @@ source:
   sha256: 4730463080d75a77a66a445961324f84758e2a281ba4b9e8003d4db5f611cde3
 
 build:
-  number: 0
-  skip: true  # [not linux]
-  # OSX is skipped because of https://github.com/pyscf/pyscf/issues/1146
+  number: 1
+  skip: true  # [win]
   script:
     - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
     - {{ PYTHON }} -m pip install . -vv
@@ -23,6 +22,8 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake >=3.10
+    - python                              # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}  # [build_platform != target_platform]
   host:
     - libblas
     - libcint
