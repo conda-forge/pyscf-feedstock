@@ -1,5 +1,5 @@
 {% set name = "pyscf" %}
-{% set version = "2.1.1" %}
+{% set version = "2.2.1" %}
 
 
 package:
@@ -8,9 +8,7 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 814240aa73f57ba96aee8264e3914c09f96ebdce1e42784da4b5e9a474ecb280
-  patches:
-    - numpy-int.patch
+  sha256: 4730463080d75a77a66a445961324f84758e2a281ba4b9e8003d4db5f611cde3
 
 build:
   number: 0
@@ -28,7 +26,7 @@ requirements:
   host:
     - libblas
     - libcint
-    - libxc 5.1.7
+    - libxc-c >=6
     - llvm-openmp
     - make
     - pip
