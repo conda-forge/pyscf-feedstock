@@ -9,6 +9,8 @@ package:
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
   sha256: 814240aa73f57ba96aee8264e3914c09f96ebdce1e42784da4b5e9a474ecb280
+  patches:
+    - numpy-int.patch
 
 build:
   number: 0
