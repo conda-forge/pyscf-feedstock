@@ -48,14 +48,20 @@ test:
     # Tests LIBXC and XCFUN
   commands:
     - pip check
-    - .github/workflows/run_tests.sh
+    - cp {{ RECIPE_DIR }}/pyscf_conf.py .pyscf_conf.py
+    - >
+      pytest pyscf/lib
+      -s -c setup.cfg
+      --cov-report xml
+      --cov-report term
+      --cov-config .coveragerc
+      --cov pyscf
   requires:
     - pip
     - pytest
     - pytest-cov
   source_files:
     - .coveragerc
-    - .github/workflows/run_tests.sh
     - pyscf
     - setup.cfg
 
