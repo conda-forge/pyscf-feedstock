@@ -1,5 +1,5 @@
 {% set name = "pyscf" %}
-{% set version = "2.2.1" %}
+{% set version = "2.3.0" %}
 
 
 package:
@@ -8,10 +8,10 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 4730463080d75a77a66a445961324f84758e2a281ba4b9e8003d4db5f611cde3
+  sha256: 884065031ae6591dbf75cd2e05336bb43363cf44eeef3443de4adefe0124ee36
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
   script:
     - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
@@ -51,12 +51,7 @@ test:
     - pip check
     - cp {{ RECIPE_DIR }}/pyscf_conf.py .pyscf_conf.py
     - >
-      pytest pyscf/lib
-      -s -c setup.cfg
-      --cov-report xml
-      --cov-report term
-      --cov-config .coveragerc
-      --cov pyscf
+      pytest pyscf/lib -s -c setup.cfg --cov-report xml --cov-report term --cov-config .coveragerc --cov pyscf
   requires:
     - pip
     - pytest
