@@ -3,5 +3,5 @@ __migrator:
   kind: version
   migration_number: 1
 libcint:
-- '5.4'
-migrator_ts: 1688583416.1587076
+- '5.5'
+migrator_ts: 1695166005.7282772
