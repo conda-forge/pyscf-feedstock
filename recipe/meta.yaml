@@ -1,5 +1,5 @@
 {% set name = "pyscf" %}
-{% set version = "2.3.0" %}
+{% set version = "2.4.0" %}
 
 
 package:
@@ -8,10 +8,10 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 884065031ae6591dbf75cd2e05336bb43363cf44eeef3443de4adefe0124ee36
+  sha256: cc76440b9a7bf6a4969559b61eceb67c25760d211e6f59fc540209b1ea359d8d
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win]
   script:
     - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
