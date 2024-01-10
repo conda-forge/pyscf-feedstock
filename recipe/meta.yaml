@@ -11,7 +11,7 @@ source:
   sha256: cc76440b9a7bf6a4969559b61eceb67c25760d211e6f59fc540209b1ea359d8d
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   script:
     - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
@@ -51,7 +51,10 @@ test:
     - pip check
     - cp {{ RECIPE_DIR }}/pyscf_conf.py .pyscf_conf.py
     - >
-      pytest pyscf/lib pyscf/scf -s -c setup.cfg --cov-report xml --cov-report term --cov-config .coveragerc --cov pyscf
+      pytest pyscf/lib pyscf/scf -s -c setup.cfg --no-cov
+      # Previously this ran:
+      # pytest pyscf/lib pyscf/scf -s -c setup.cfg --cov-report xml --cov-report term --cov-config .coveragerc --cov pyscf
+      # Disabled due to python 3.12.1 memory leak. Should be resolved in python 3.12.2
   requires:
     - pip
     - pytest
