@@ -1,5 +1,5 @@
 {% set name = "pyscf" %}
-{% set version = "2.5.0" %}
+{% set version = "2.6.0" %}
 
 
 package:
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 7c3be8f1f4fe3f5e46e56eab0d2dd2c22ee31f567960cfffe84ec2b46ecaec2a
+  sha256: 28fa68bada065acf1ace4c904e26ea4f94d656e84a260b24a99ec612f16127a8
 
 build:
   number: 0
@@ -20,6 +20,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - cmake >=3.10
     - python                              # [build_platform != target_platform]
