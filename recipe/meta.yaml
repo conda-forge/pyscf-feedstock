@@ -52,7 +52,7 @@ test:
     - pip check
     - cp {{ RECIPE_DIR }}/pyscf_conf.py .pyscf_conf.py
     - >
-      pytest pyscf/lib pyscf/scf -s -c setup.cfg --no-cov # Previously this ran: # pytest pyscf/lib pyscf/scf -s -c setup.cfg --cov-report xml --cov-report term --cov-config .coveragerc --cov pyscf # Disabled due to python 3.12.1 memory leak. Should be resolved in python 3.12.2
+      pytest pyscf/lib pyscf/scf -s -c pytest.ini --no-cov # Previously this ran: # pytest pyscf/lib pyscf/scf -s -c setup.cfg --cov-report xml --cov-report term --cov-config .coveragerc --cov pyscf # Disabled due to python 3.12.1 memory leak. Should be resolved in python 3.12.2
   requires:
     - pip
     - pytest
@@ -60,7 +60,7 @@ test:
   source_files:
     - .coveragerc
     - pyscf
-    - setup.cfg
+    - pytest.ini
 
 about:
   home: https://pyscf.org
