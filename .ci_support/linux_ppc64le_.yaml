@@ -20,14 +20,6 @@ docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
 libblas:
 - 3.9 *netlib
-libcint:
-- '5.5'
-pin_run_as_build:
-  python:
-    min_pin: x.x
-    max_pin: x.x
-python:
-- 3.8.* *_cpython
 target_platform:
 - linux-ppc64le
 zip_keys:
