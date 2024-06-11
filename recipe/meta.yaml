@@ -17,8 +17,6 @@ build:
     - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
     - export CMAKE_BUILD_PARALLEL_LEVEL="${CPU_COUNT}"
     - {{ PYTHON }} -m pip install . -vv
-  force_ignore_keys:
-    python
 
 requirements:
   build:
