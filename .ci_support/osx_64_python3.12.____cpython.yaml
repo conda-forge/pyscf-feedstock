@@ -21,7 +21,7 @@ cxx_compiler_version:
 libblas:
 - 3.9 *netlib
 libcint:
-- '5.5'
+- '6.1'
 llvm_openmp:
 - '16'
 macos_machine:
