@@ -1,5 +1,5 @@
 {% set name = "pyscf" %}
-{% set version = "2.6.1" %}
+{% set version = "2.6.2" %}
 
 
 package:
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: beb7c14902a99512c34feaf5cf19d1cd9b425cd0b01abbe35c5656bd94a9b5fe
+  sha256: 09c0b064ddd493886b7bee768f33e5df8940436e130118354b869869ec36a2af
 
 build:
   number: 0
