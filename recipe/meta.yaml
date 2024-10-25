@@ -9,6 +9,8 @@ package:
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
   sha256: f2f94e6dae8556085bb765eb5250f61589e977b4f12540c748241101d40da241
+  patches:
+    - gh-2482.patch
 
 build:
   number: 0
