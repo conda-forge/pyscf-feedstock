@@ -30,7 +30,7 @@ requirements:
   host:
     - libblas
     - libcint
-    - libxc-c >=6
+    - libxc-c >=6,<7
     - llvm-openmp
     - make
     - pip
