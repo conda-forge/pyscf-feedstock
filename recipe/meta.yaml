@@ -13,7 +13,7 @@ source:
     - gh-2482.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   script:
     - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
@@ -25,8 +25,9 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - cmake >=3.10
-    - python                              # [build_platform != target_platform]
     - cross-python_{{ target_platform }}  # [build_platform != target_platform]
+    - python                              # [build_platform != target_platform]
+    - setuptools                          # [build_platform != target_platform]
   host:
     - libblas
     - libcint
@@ -35,12 +36,14 @@ requirements:
     - make
     - pip
     - python
+    - setuptools
     - xcfun 2.1.1
   run:
     - h5py >=2.7
     - numpy >=1.13,!=1.16,!=1.17
     - python
     - scipy >=0.19,!=1.5.0,!=1.5
+    - setuptools
   run_constrained:
     - pyberny >=0.6.2
     - geometric >=0.9.7.2
