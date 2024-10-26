@@ -25,8 +25,9 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - cmake >=3.10
-    - python                              # [build_platform != target_platform]
     - cross-python_{{ target_platform }}  # [build_platform != target_platform]
+    - python                              # [build_platform != target_platform]
+    - setuptools                          # [build_platform != target_platform]
   host:
     - libblas
     - libcint
@@ -35,6 +36,7 @@ requirements:
     - make
     - pip
     - python
+    - setuptools
     - xcfun 2.1.1
   run:
     - h5py >=2.7
