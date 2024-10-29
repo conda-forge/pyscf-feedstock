@@ -1,0 +1,81 @@
+From 88097a11cc0b0c9a97258c798ef853fa5da5eaf6 Mon Sep 17 00:00:00 2001
+From: Susi Lehtola <susi.lehtola@gmail.com>
+Date: Thu, 10 Oct 2024 19:16:31 +0300
+Subject: [PATCH] Update to libxc 7.0.0
+
+---
+ pyscf/lib/CMakeLists.txt   |  2 +-
+ pyscf/lib/dft/libxc_itrf.c | 12 ++++++------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/pyscf/lib/CMakeLists.txt b/pyscf/lib/CMakeLists.txt
+index c41dcc2b35..c590b5e5da 100644
+--- a/pyscf/lib/CMakeLists.txt
++++ b/pyscf/lib/CMakeLists.txt
+@@ -219,7 +219,7 @@ if(ENABLE_LIBXC AND BUILD_LIBXC)
+   ExternalProject_Add(libxc
+     #GIT_REPOSITORY https://gitlab.com/libxc/libxc.git
+     #GIT_TAG master
+-    URL https://gitlab.com/libxc/libxc/-/archive/6.1.0/libxc-6.1.0.tar.gz
++    URL https://gitlab.com/libxc/libxc/-/archive/7.0.0/libxc-7.0.0.tar.gz
+     PREFIX ${PROJECT_BINARY_DIR}/deps
+     INSTALL_DIR ${PROJECT_SOURCE_DIR}/deps
+     CMAKE_ARGS -DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=1
+diff --git a/pyscf/lib/dft/libxc_itrf.c b/pyscf/lib/dft/libxc_itrf.c
+index a117dffbb4..fe5c8065f9 100644
+--- a/pyscf/lib/dft/libxc_itrf.c
++++ b/pyscf/lib/dft/libxc_itrf.c
+@@ -730,7 +730,7 @@ int LIBXC_is_hybrid(int xc_id)
+                 raise_error -1;
+         }
+ 
+-#if XC_MAJOR_VERSION <= 6
++#if XC_MAJOR_VERSION <= 7
+         switch(func.info->family)
+         {
+ #ifdef XC_FAMILY_HYB_LDA
+@@ -760,7 +760,7 @@ double LIBXC_hybrid_coeff(int xc_id)
+                 raise_error 0.0;
+         }
+ 
+-#if XC_MAJOR_VERSION <= 6
++#if XC_MAJOR_VERSION <= 7
+         switch(func.info->family)
+         {
+ #ifdef XC_FAMILY_HYB_LDA
+@@ -807,7 +807,7 @@ void LIBXC_rsh_coeff(int xc_id, double *rsh_pars) {
+         rsh_pars[1] = 0.0;
+         rsh_pars[2] = 0.0;
+ 
+-#if XC_MAJOR_VERSION <= 6
++#if XC_MAJOR_VERSION <= 7
+         XC(hyb_cam_coef)(&func, &rsh_pars[0], &rsh_pars[1], &rsh_pars[2]);
+ #else
+         switch(xc_hyb_type(&func)) {
+@@ -825,7 +825,7 @@ int LIBXC_is_cam_rsh(int xc_id) {
+                 fprintf(stderr, "XC functional %d not found\n", xc_id);
+                 raise_error -1;
+         }
+-#if XC_MAJOR_VERSION <= 6
++#if XC_MAJOR_VERSION <= 7
+         int is_cam = func.info->flags & XC_FLAGS_HYB_CAM;
+ #else
+         int is_cam = (xc_hyb_type(&func) == XC_HYB_CAM);
+@@ -1023,7 +1023,7 @@ void LIBXC_eval_xc(int nfn, int *fn_id, double *fac, double *omega,
+                 // set the range-separated parameter
+                 if (omega[i] != 0) {
+                         // skip if func is not a RSH functional
+-#if XC_MAJOR_VERSION <= 6
++#if XC_MAJOR_VERSION <= 7
+                         if (func.cam_omega != 0) {
+                                 func.cam_omega = omega[i];
+                         }
+@@ -1035,7 +1035,7 @@ void LIBXC_eval_xc(int nfn, int *fn_id, double *fac, double *omega,
+                         // Recursively set the sub-functionals if they are RSH
+                         // functionals
+                         for (j = 0; j < func.n_func_aux; j++) {
+-#if XC_MAJOR_VERSION <= 6
++#if XC_MAJOR_VERSION <= 7
+                                 if (func.func_aux[j]->cam_omega != 0) {
+                                         func.func_aux[j]->cam_omega = omega[i];
+                                 }
