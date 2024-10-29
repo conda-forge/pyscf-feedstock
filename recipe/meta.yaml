@@ -10,10 +10,11 @@ source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
   sha256: f2f94e6dae8556085bb765eb5250f61589e977b4f12540c748241101d40da241
   patches:
-    - gh-2482.patch
+    - gh-2482.patch  # test tolerances
+    - gh-2458.patch  # libxc 7 support
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win]
   script:
     - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
@@ -31,7 +32,7 @@ requirements:
   host:
     - libblas
     - libcint
-    - libxc-c >=6,<7
+    - libxc-c >=6,<8
     - llvm-openmp
     - make
     - pip
