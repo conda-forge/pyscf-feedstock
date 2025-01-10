@@ -1,5 +1,5 @@
 {% set name = "pyscf" %}
-{% set version = "2.7.0" %}
+{% set version = "2.8.0" %}
 
 
 package:
@@ -8,13 +8,13 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: f2f94e6dae8556085bb765eb5250f61589e977b4f12540c748241101d40da241
+  sha256: f53ea72b25f64cc7a3345b6f1b6e3a30c1cbf550252324731a2192dafe891149
   patches:
     - gh-2482.patch  # test tolerances
     - gh-2458.patch  # libxc 7 support
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win]
   script:
     - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
