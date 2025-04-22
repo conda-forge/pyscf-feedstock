@@ -9,9 +9,6 @@ package:
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
   sha256: 4407f515f3173dc6f8df2d2e889a2fbaac0279ea04d5d38ceb4753a63a5a222a
-  patches:
-    - gh-2482.patch  # test tolerances
-    - gh-2458.patch  # libxc 7 support
 
 build:
   number: 0
