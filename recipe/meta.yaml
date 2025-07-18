@@ -1,5 +1,5 @@
 {% set name = "pyscf" %}
-{% set version = "2.7.0" %}
+{% set version = "2.9.0" %}
 
 
 package:
@@ -8,15 +8,13 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: f2f94e6dae8556085bb765eb5250f61589e977b4f12540c748241101d40da241
-  patches:
-    - gh-2482.patch
+  sha256: 4407f515f3173dc6f8df2d2e889a2fbaac0279ea04d5d38ceb4753a63a5a222a
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   script:
-    - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
+    - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DBLAS_LIBRARIES=lapack;blas -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
     - {{ PYTHON }} -m pip install . -vv
 
 requirements:
@@ -27,22 +25,25 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - cmake >=3.10
-    - python                              # [build_platform != target_platform]
     - cross-python_{{ target_platform }}  # [build_platform != target_platform]
+    - python                              # [build_platform != target_platform]
+    - setuptools                          # [build_platform != target_platform]
   host:
     - libblas
     - libcint
-    - libxc-c >=6,<7
+    - libxc-c >=6,<8
     - llvm-openmp
     - make
     - pip
     - python
+    - setuptools
     - xcfun 2.1.1
   run:
     - h5py >=2.7
     - numpy >=1.13,!=1.16,!=1.17
     - python
     - scipy >=0.19,!=1.5.0,!=1.5
+    - setuptools
   run_constrained:
     - pyberny >=0.6.2
     - geometric >=0.9.7.2
