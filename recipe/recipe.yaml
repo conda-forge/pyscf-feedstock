@@ -1,5 +1,5 @@
 context:
-  version: "2.9.0"
+  version: "2.10.0"
 
 package:
   name: "pyscf"
@@ -7,10 +7,10 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 4407f515f3173dc6f8df2d2e889a2fbaac0279ea04d5d38ceb4753a63a5a222a
+  sha256: e754266e5dfcb761fd2d033041e225cf5ea0570e0587af5d56cc02ed00589820
 
 build:
-  number: 2
+  number: 0
   skip:
     - win
   script:
