@@ -1,5 +1,6 @@
 context:
   version: "2.11.0"
+  touch_is_freethreading: ${{ is_freethreading }}
 
 package:
   name: "pyscf"
@@ -10,9 +11,11 @@ source:
   sha256: 314bb28890c36a151d4cae87b4077f0900f7d306880104b0fbbcbd0a8ae5b9ed
 
 build:
-  number: 0
+  number: 1
+  python:
+    version_independent: true
   skip:
-    - win
+    - win or (not is_python_min)
   script:
     - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DBLAS_LIBRARIES=lapack;blas -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
     - export CMAKE_BUILD_PARALLEL_LEVEL=${CPU_COUNT}
@@ -60,8 +63,8 @@ tests:
         - pyscf
         - pyscf.dft
         # Tests LIBXC and XCFUN
+      python_version: ["${{ python_min ~ '.*' }}", "3.11.*", "3.12.*", "3.13.*"]
       pip_check: true
-
   - script:
       - cp pyscf_conf.py .pyscf_conf.py
       - pytest pyscf/lib pyscf/scf -s -c pytest.ini --no-cov # Previously this ran: # pytest pyscf/lib pyscf/scf -s -c setup.cfg --cov-report xml --cov-report term --cov-config .coveragerc --cov pyscf # Disabled due to python 3.12.1 memory leak. Should be resolved in python 3.12.2
