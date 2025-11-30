@@ -1,6 +1,9 @@
 context:
   version: "2.11.0"
   touch_is_freethreading: ${{ is_freethreading }}
+  build_num: 1
+  mlevel: ${{ (microarch_level | int) if microarch_level else 0 }}
+  use_fast_math: ${{ linux and x86_64 and match(c_stdlib_version, ">=2.34") }}
 
 package:
   name: "pyscf"
@@ -11,13 +14,36 @@ source:
   sha256: 314bb28890c36a151d4cae87b4077f0900f7d306880104b0fbbcbd0a8ae5b9ed
 
 build:
-  number: 1
+  number: ${{ ( (build_num | int) + 100 * (mlevel | int) + (1000 if use_fast_math else 0) ) }}
   python:
     version_independent: true
   skip:
-    - win or (not is_python_min)
+    - win
+    - not is_python_min
+    - microarch_level > 1 and not (unix and x86_64)
+    - linux and match(c_stdlib_version, ">2.17") and not use_fast_math
+  dynamic_linking:
+    # required for -ffast-math.
+    missing_dso_allowlist:
+      - if: use_fast_math
+        then:
+          - libmvec.so.1
+          - libm.so.6
   script:
-    - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DBLAS_LIBRARIES=lapack;blas -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -LAH"
+    - if: use_fast_math
+      then:
+        # this contains "-ffast-math"
+        # libmvec's vector math was introduced in glibc 2.22,
+        # but glibc 2.31 broke backward compatibility
+        - cp $SRC_DIR/pyscf/lib/cmake_user_inc_examples/cmake.user.inc-gnu $SRC_DIR/pyscf/lib/cmake.arch.inc
+        - export LDFLAGS="${LDFLAGS} -Wl,--no-as-needed -lmvec -lm -Wl,--as-needed"
+    - if: (microarch_level == 4)
+      then:
+        # manually add the appropriate flags so we can cross compile for v4
+        - export CFLAGS="${CFLAGS} -march=x86-64-v4"
+        - export CXXFLAGS="${CXXFLAGS} -march=x86-64-v4"
+        - export CPPFLAGS="${CPPFLAGS} -march=x86-64-v4"
+    - export CMAKE_CONFIGURE_ARGS="${CMAKE_ARGS} -DBLAS_LIBRARIES=lapack;blas -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=ON -DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF -DCMAKE_VERBOSE_MAKEFILE=ON -LAH"
     - export CMAKE_BUILD_PARALLEL_LEVEL=${CPU_COUNT}
     - ${{ PYTHON }} -m pip install . -vv
 
@@ -35,6 +61,10 @@ requirements:
       then:
         - cross-python_${{ target_platform }}
     - setuptools
+    # following the trick in graph-tool-feedstock
+    # to cross-compile for v4
+    - if: unix and x86_64 and ( microarch_level < 4)
+      then: x86_64-microarch-level ==${{ microarch_level }}
   host:
     - libblas
     - libcint
@@ -53,33 +83,39 @@ requirements:
     - python
     - scipy >=0.19,!=1.5.0,!=1.5
     - setuptools
+    - if: unix and x86_64 and (microarch_level == 4)
+      then: _x86_64-microarch-level >=${{ microarch_level }}
   run_constraints:
     - pyberny >=0.6.2
     - geometric >=0.9.7.2
 
 tests:
-  - python:
-      imports:
-        - pyscf
-        - pyscf.dft
-        # Tests LIBXC and XCFUN
-      python_version: ["${{ python_min ~ '.*' }}", "3.11.*", "3.12.*", "3.13.*"]
-      pip_check: true
-  - script:
-      - cp pyscf_conf.py .pyscf_conf.py
-      - pytest pyscf/lib pyscf/scf -s -c pytest.ini --no-cov # Previously this ran: # pytest pyscf/lib pyscf/scf -s -c setup.cfg --cov-report xml --cov-report term --cov-config .coveragerc --cov pyscf # Disabled due to python 3.12.1 memory leak. Should be resolved in python 3.12.2
-    requirements:
-      run:
-        - pip
-        - pytest
-        - pytest-cov
-    files:
-      source:
-        - .coveragerc
-        - pytest.ini
-        - pyscf
-      recipe:
-        - pyscf_conf.py
+  - if: (microarch_level != 4)
+    then:
+      - python:
+          imports:
+            - pyscf
+            - pyscf.dft
+            # Tests LIBXC and XCFUN
+          python_version: ["${{ python_min ~ '.*' }}", "3.11.*", "3.12.*", "3.13.*"]
+          pip_check: true
+  - if: (microarch_level != 4)
+    then:
+      - script:
+        - cp pyscf_conf.py .pyscf_conf.py
+        - pytest pyscf/lib pyscf/scf -s -c pytest.ini --no-cov # Previously this ran: # pytest pyscf/lib pyscf/scf -s -c setup.cfg --cov-report xml --cov-report term --cov-config .coveragerc --cov pyscf # Disabled due to python 3.12.1 memory leak. Should be resolved in python 3.12.2
+        requirements:
+          run:
+            - pip
+            - pytest
+            - pytest-cov
+        files:
+          source:
+            - .coveragerc
+            - pytest.ini
+            - pyscf
+          recipe:
+            - pyscf_conf.py
 
 about:
   homepage: https://pyscf.org
