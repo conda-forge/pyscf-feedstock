@@ -21,7 +21,6 @@ build:
     - win
     - not is_python_min
     - microarch_level > 1 and not (unix and x86_64)
-    - linux and match(c_stdlib_version, ">2.17") and not use_fast_math
   dynamic_linking:
     # required for -ffast-math.
     missing_dso_allowlist:
