@@ -21,13 +21,6 @@ build:
     - win
     - not is_python_min
     - microarch_level > 1 and not (unix and x86_64)
-  dynamic_linking:
-    # required for -ffast-math.
-    missing_dso_allowlist:
-      - if: use_fast_math
-        then:
-          - libmvec.so.1
-          - libm.so.6
   script:
     - if: use_fast_math
       then:
@@ -35,7 +28,8 @@ build:
         # libmvec's vector math was introduced in glibc 2.22,
         # but glibc 2.31 broke backward compatibility
         - cp $SRC_DIR/pyscf/lib/cmake_user_inc_examples/cmake.user.inc-gnu $SRC_DIR/pyscf/lib/cmake.arch.inc
-        - export LDFLAGS="${LDFLAGS} -Wl,--no-as-needed -lmvec -lm -Wl,--as-needed"
+        # need to link libm for -ffast-math
+        - echo "link_libraries(m)" >> $SRC_DIR/pyscf/lib/cmake.arch.inc
     - if: (microarch_level == 4)
       then:
         # manually add the appropriate flags so we can cross compile for v4
