@@ -24,6 +24,8 @@ libblas:
 - 3.9.* *netlib
 libcint:
 - '6.1'
+microarch_level:
+- 1
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -33,7 +35,7 @@ python:
 python_min:
 - '3.10'
 target_platform:
-- linux-ppc64le
+- linux-aarch64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

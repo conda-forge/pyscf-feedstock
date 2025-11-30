@@ -8,16 +8,24 @@ jobs:
     vmImage: ubuntu-latest
   strategy:
     matrix:
-      linux_64_is_python_mintruepython3.10.____cpython:
-        CONFIG: linux_64_is_python_mintruepython3.10.____cpython
+      linux_64_is_python_mintruemicroarch_level1python3.10.____cpython:
+        CONFIG: linux_64_is_python_mintruemicroarch_level1python3.10.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_aarch64_is_python_mintruepython3.10.____cpython:
-        CONFIG: linux_aarch64_is_python_mintruepython3.10.____cpython
+      linux_64_is_python_mintruemicroarch_level3python3.10.____cpython:
+        CONFIG: linux_64_is_python_mintruemicroarch_level3python3.10.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_ppc64le_is_python_mintruepython3.10.____cpython:
-        CONFIG: linux_ppc64le_is_python_mintruepython3.10.____cpython
+      linux_64_is_python_mintruemicroarch_level4python3.10.____cpython:
+        CONFIG: linux_64_is_python_mintruemicroarch_level4python3.10.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+      linux_aarch64_is_python_mintruemicroarch_level1python3.10.____cpython:
+        CONFIG: linux_aarch64_is_python_mintruemicroarch_level1python3.10.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+      linux_ppc64le_is_python_mintruemicroarch_level1python3.10.____cpython:
+        CONFIG: linux_ppc64le_is_python_mintruemicroarch_level1python3.10.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
   timeoutInMinutes: 360
