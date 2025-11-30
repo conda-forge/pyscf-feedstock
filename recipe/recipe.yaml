@@ -3,7 +3,7 @@ context:
   touch_is_freethreading: ${{ is_freethreading }}
   build_num: 1
   mlevel: ${{ (microarch_level | int) if microarch_level else 0 }}
-  use_fast_math: ${{ linux and x86_64 and match(c_stdlib_version, ">=2.34") }}
+  use_fast_math: ${{ linux and x86_64 and match(c_stdlib_version, ">=2.28") }}
 
 package:
   name: "pyscf"
@@ -26,7 +26,6 @@ build:
       then:
         # this contains "-ffast-math"
         # libmvec's vector math was introduced in glibc 2.22,
-        # but glibc 2.31 broke backward compatibility
         - cp $SRC_DIR/pyscf/lib/cmake_user_inc_examples/cmake.user.inc-gnu $SRC_DIR/pyscf/lib/cmake.arch.inc
         # need to link libm for -ffast-math
         - echo "link_libraries(m)" >> $SRC_DIR/pyscf/lib/cmake.arch.inc
