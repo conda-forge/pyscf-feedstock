@@ -1,5 +1,5 @@
 context:
-  version: "2.11.0"
+  version: "2.12.0"
   touch_is_freethreading: ${{ is_freethreading }}
   build_num: 1
   mlevel: ${{ (microarch_level | int) if microarch_level else 0 }}
@@ -11,10 +11,10 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 314bb28890c36a151d4cae87b4077f0900f7d306880104b0fbbcbd0a8ae5b9ed
+  sha256: d2a924314433b17ea033fd7d311d94f109d5b2ba8a0d70a37312aca4a44350e5
 
 build:
-  number: ${{ ( (build_num | int) + 100 * (mlevel | int) + (1000 if use_fast_math else 0) ) }}
+  number: 0
   python:
     version_independent: true
   skip:
@@ -91,11 +91,9 @@ tests:
             # Tests LIBXC and XCFUN
           python_version: ["${{ python_min ~ '.*' }}", "3.11.*", "3.12.*", "3.13.*"]
           pip_check: true
-  - if: (microarch_level != 4)
-    then:
       - script:
-        - cp pyscf_conf.py .pyscf_conf.py
-        - pytest pyscf/lib pyscf/scf -s -c pytest.ini --no-cov # Previously this ran: # pytest pyscf/lib pyscf/scf -s -c setup.cfg --cov-report xml --cov-report term --cov-config .coveragerc --cov pyscf # Disabled due to python 3.12.1 memory leak. Should be resolved in python 3.12.2
+          - cp pyscf_conf.py .pyscf_conf.py
+          - pytest pyscf/lib pyscf/scf -s -c pytest.ini --no-cov # Previously this ran: # pytest pyscf/lib pyscf/scf -s -c setup.cfg --cov-report xml --cov-report term --cov-config .coveragerc --cov pyscf # Disabled due to python 3.12.1 memory leak. Should be resolved in python 3.12.2
         requirements:
           run:
             - pip
