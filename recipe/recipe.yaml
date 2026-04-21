@@ -1,7 +1,7 @@
 context:
   version: "2.13.0"
   touch_is_freethreading: ${{ is_freethreading }}
-  build_num: 0
+  build_num: 1
   mlevel: ${{ (microarch_level | int) if microarch_level else 0 }}
   use_fast_math: ${{ linux and x86_64 and match(c_stdlib_version, ">=2.28") }}
 
@@ -14,7 +14,7 @@ source:
   sha256: b0f22880d918d3ae7cf6abb5629c457d2e58a572e22695ee849b17efa05c57d2
 
 build:
-  number: 0
+  number: ${{ ( (build_num | int) + 100 * (mlevel | int) + (1000 if use_fast_math else 0) ) }}
   python:
     version_independent: true
   skip:
