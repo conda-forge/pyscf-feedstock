@@ -1,5 +1,5 @@
 context:
-  version: "2.13.0"
+  version: "2.13.1"
   touch_is_freethreading: ${{ is_freethreading }}
   build_num: 3
   mlevel: ${{ (microarch_level | int) if microarch_level else 0 }}
@@ -11,10 +11,10 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: b0f22880d918d3ae7cf6abb5629c457d2e58a572e22695ee849b17efa05c57d2
+  sha256: f55fe07c058f98b1ab7b1cbbf630b0a85ce7da6c5015a07f0a15ede3d14289fa
 
 build:
-  number: ${{ ( (build_num | int) + 100 * (mlevel | int) + (1000 if use_fast_math else 0) ) }}
+  number: 0
   python:
     version_independent: true
   skip:
