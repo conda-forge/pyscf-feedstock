@@ -1,7 +1,7 @@
 context:
   version: "2.13.1"
   touch_is_freethreading: ${{ is_freethreading }}
-  build_num: 3
+  build_num: 0
   mlevel: ${{ (microarch_level | int) if microarch_level else 0 }}
   use_fast_math: ${{ linux and x86_64 and match(c_stdlib_version, ">=2.28") }}
 
