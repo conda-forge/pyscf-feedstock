@@ -14,7 +14,7 @@ source:
   sha256: f55fe07c058f98b1ab7b1cbbf630b0a85ce7da6c5015a07f0a15ede3d14289fa
 
 build:
-  number: 0
+  number: ${{ ( (build_num | int) + 100 * (mlevel | int) + (1000 if use_fast_math else 0) ) }}
   python:
     version_independent: true
   skip:
