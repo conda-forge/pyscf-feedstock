@@ -1,7 +1,7 @@
 context:
-  version: "2.14.0"
+  version: "2.15.0"
   touch_is_freethreading: ${{ is_freethreading }}
-  build_num: 2
+  build_num: 0
   mlevel: ${{ (microarch_level | int) if microarch_level else 0 }}
   use_fast_math: ${{ linux and x86_64 and match(c_stdlib_version, ">=2.28") }}
 
@@ -11,7 +11,9 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 03c2e84ea8ce37ea1e029d219e57977a21df16c4e5ab2208389819e045c10939
+  sha256: 9af9315740a6b922ebfab73b177e641527874fa04376734854f9dc2886fa3650
+  patches:
+    - 0001-fix-assertAlmostEqual-on-array-in-test_davidson_diag_matrix.patch
 
 build:
   number: ${{ ( (build_num | int) + 100 * (mlevel | int) + (1000 if use_fast_math else 0) ) }}
@@ -53,11 +55,11 @@ build:
 requirements:
   build:
     - if: win
-      then: 
+      then:
         - ${{ compiler('m2w64_c') }}
         - ${{ stdlib('m2w64_c') }}
         - ${{ compiler('m2w64_cxx') }}
-      else: 
+      else:
         - ${{ compiler('c') }}
         - ${{ stdlib("c") }}
         - ${{ compiler('cxx') }}
