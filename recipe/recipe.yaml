@@ -12,6 +12,8 @@ package:
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v${{ version }}.tar.gz
   sha256: 9af9315740a6b922ebfab73b177e641527874fa04376734854f9dc2886fa3650
+  patches:
+    - 0001-fix-assertAlmostEqual-on-array-in-test_davidson_diag_matrix.patch
 
 build:
   number: ${{ ( (build_num | int) + 100 * (mlevel | int) + (1000 if use_fast_math else 0) ) }}
