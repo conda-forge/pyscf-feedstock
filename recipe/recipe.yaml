@@ -1,5 +1,5 @@
 context:
-  version: "2.15.0"
+  version: "2.15.1"
   touch_is_freethreading: ${{ is_freethreading }}
   build_num: 0
   mlevel: ${{ (microarch_level | int) if microarch_level else 0 }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/pyscf/pyscf/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 9af9315740a6b922ebfab73b177e641527874fa04376734854f9dc2886fa3650
+  sha256: 2157be75fa2ba706740eecabe1a9b432842f8431a41a5573818c63b3fdb67d9c
   patches:
     - 0001-fix-assertAlmostEqual-on-array-in-test_davidson_diag_matrix.patch
 
